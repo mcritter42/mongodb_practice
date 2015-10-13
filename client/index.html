@@ -1,100 +1,61 @@
 <!doctype html>
-<html lang="en" ng-app>
-  <head>
-    <title>Chat Example</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
-    <style>
-      body {
-        padding-top: 60px;
-      }
-    </style>
-    <script>
-      function ChatController($scope) {
-        var socket = io.connect();
+<html lang="en">
 
-        $scope.messages = [];
-        $scope.roster = [];
-        $scope.name = '';
-        $scope.text = '';
+<head>
+  <title>Online BBA Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+  <style>
+    body {
+      padding-top: 10px;
+    }
+  </style>
+</head>
 
-        socket.on('connect', function () {
-          $scope.setName();
-        });
-
-        socket.on('message', function (msg) {
-          $scope.messages.push(msg);
-          $scope.$apply();
-        });
-
-        socket.on('roster', function (names) {
-          $scope.roster = names;
-          $scope.$apply();
-        });
-
-        $scope.send = function send() {
-          console.log('Sending message:', $scope.text);
-          socket.emit('message', $scope.text);
-          $scope.text = '';
-        };
-
-        $scope.setName = function setName() {
-          socket.emit('identify', $scope.name);
-        };
-      }
-    </script>
-  </head>
-  <body>
-    <div class="container" ng-controller="ChatController">
-      <div class="navbar navbar-fixed-top navbar-inverse">
-        <div class="navbar-inner">
-          <div class="pull-right">
-            <a href="https://c9.io" class="brand">Cloud9 IDE</a>
-          </div>
-        </div>
+<body>
+  <div class="page-header">
+    <h1>Online BBA Example</h1>
+    <p><a href="/users">Go to Queries</a></p>
+  </div>
+  <div class="container-fluid">
+    <!-- form grouping is handled by the name of each radio button -->
+    <form action="/users" method='post'>
+      <div class="form-group col-md-4">
+        <label for="management">Management</label>
+        <input type="radio" name="management" class="radio" id="program">
       </div>
-      <div class="page-header">
-        <h1>Chat Example</h1>
+      <div class="form-group col-md-4">
+        <label for="marketing">Marketing</label>
+        <input type="radio" name="marketing" class="radio" id="program">
+      </div class="form-group col-md-4">
+      <label for="genbus">General Business</label>
+      <input type="radio" name="genbus" class="radio" id="program">
+      <div class="form-group col-md-4">
+        <label for="economics">Economics</label>
+        <input type="radio" name="economics" class="radio" id="program">
       </div>
-      <div class="row">
-        <div class="span3">
-          <ul class="nav nav-list well">
-            <li class="nav-header">Local Users</li>
-            <li ng-repeat="user in roster" ng-bind="user">
-            </li>
-          </ul>
-        </div>
-        <div class="span9">
-          <table class="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th class="span2">Name</th>
-                <th class="span7">Text</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="msg in messages">
-                <td class="span2" ng-bind="msg.name"></td>
-                <td class="span7" ng-bind="msg.text"></td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="row controls">
-            <form ng-submit="send()">
-              <div class="span2"><input type="text" class="input-block-level" ng-model="name" ng-change="setName()" placeholder="Your Name"></div>
-              <div class="input-append span7">
-                <input type="text" class="span6" ng-model="text" placeholder="Message">
-                <input type="submit" class="span1 btn btn-primary" value="Send" ng-disabled="!text">
-              </div>
-            </form>
-          </div>
-        </div>
+      <hr>
+      <div class="form-group col-md-4">
+        <label for="fname">First Name</label>
+        <input type="text" name="fname" class="form-control" id="fname" required> 
       </div>
-    </div>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/angular.min.js"></script>
-  </body>
+      <div class="form-group col-md-4">
+        <label for="lname">Last Name</label>
+        <input type="text" name="lname" class="form-control" id="lname" required>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="email">Email</label>
+        <input type="email" name="email" class="form-control" id="email" required>
+      </div>
+      <div class="form-group col-md-4">
+        <input type="submit" name="submit" id="submit" value="submit">
+      </div>
+    </form>
+  </div>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/angular.min.js"></script>
+</body>
+
 </html>
